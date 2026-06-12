@@ -110,17 +110,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // --- 4. INTEGRAZIONE YAZIO ---
-      try {
-        // Inizializza il client Yazio con le credenziali da variabili d'ambiente
+      // Inizializza il client Yazio con username/password (credenziali)
         const yazio = new Yazio({
-          credentials: {
-            username: process.env.YAZIO_USERNAME!,
-            password: process.env.YAZIO_PASSWORD!,
-          },
+          username: process.env.YAZIO_USERNAME!,
+          password: process.env.YAZIO_PASSWORD!,
         });
-
-        // Effettua il login (richiesto dalla maggior parte dei client non ufficiali)
-        await yazio.user.login();
 
         // Cerca l'alimento nel database Yazio
         const searchResults = await yazio.products.search({ query: alimento });
@@ -139,11 +133,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Registra il pasto per la data odierna
         const today = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
 
-        await yazio.diary.addEntry({
-          date: today,
-          productId: product.id,
+        await yazio.user.addConsumedItem({
+          product_id: product.product_id,
           amount: quantita_grammi,
-          servingUnit: 'g',
+          serving: product.serving,
+          serving_quantity: product.serving_quantity,
+          date: today,
+          daytime: 'snack',
         });
 
         // --- 5. CONFERMA ALL'UTENTE ---
