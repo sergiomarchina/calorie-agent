@@ -110,6 +110,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // --- 4. INTEGRAZIONE YAZIO ---
+        // --- 4. INTEGRAZIONE YAZIO ---
+      try {
       // Inizializza il client Yazio con username/password (credenziali)
         const yazio = new Yazio({
           username: process.env.YAZIO_USERNAME!,
