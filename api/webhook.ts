@@ -1,7 +1,7 @@
 // api/webhook.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import OpenAI from 'openai';
-import { Yazio } from 'yazio';
+import { Yazio } from 'yazio/dist/index.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
