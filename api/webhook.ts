@@ -1,7 +1,8 @@
 // api/webhook.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import OpenAI from 'openai';
-import { Yazio } from 'yazio';
+// @ts-ignore - bypass della exports map rotta del package yazio
+const { Yazio } = require('yazio/dist/index.js');
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
